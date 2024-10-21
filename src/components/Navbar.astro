@@ -1,0 +1,50 @@
+---
+---
+
+<nav class="bg-black text-white p-4">
+  <div class="container mx-auto flex justify-between items-center">
+    <a href="/" class="text-halloween-orange text-2xl font-bold">🎃 Spooky Site</a>
+    
+    <button id="menu-toggle" class="lg:hidden text-halloween-orange">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+      </svg>
+    </button>
+    
+    <ul id="menu" class="hidden lg:flex space-x-4">
+      <li><a href="/" class="hover:text-halloween-green transition-colors duration-300">Home</a></li>
+      <li><a href="/tricks" class="hover:text-halloween-green transition-colors duration-300">Tricks</a></li>
+      <li><a href="/treats" class="hover:text-halloween-green transition-colors duration-300">Treats</a></li>
+      <li><a href="/costumes" class="hover:text-halloween-green transition-colors duration-300">Costumes</a></li>
+    </ul>
+  </div>
+  
+  <div id="mobile-menu" class="lg:hidden hidden mt-4">
+    <ul class="flex flex-col space-y-2">
+      <li><a href="/" class="block hover:text-halloween-green transition-colors duration-300">Home</a></li>
+      <li><a href="/tricks" class="block hover:text-halloween-green transition-colors duration-300">Tricks</a></li>
+      <li><a href="/treats" class="block hover:text-halloween-green transition-colors duration-300">Treats</a></li>
+      <li><a href="/costumes" class="block hover:text-halloween-green transition-colors duration-300">Costumes</a></li>
+    </ul>
+  </div>
+</nav>
+
+<script>
+  const menuToggle = document.getElementById('menu-toggle') as HTMLButtonElement;
+  const mobileMenu = document.getElementById('mobile-menu') as HTMLElement;
+
+    menuToggle.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+</script>
+
+<style>
+  @keyframes spookyFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  nav a:hover {
+    animation: spookyFloat 2s ease-in-out infinite;
+  }
+</style>

@@ -1,0 +1,107 @@
+---
+import { getCldImageUrl } from "astro-cloudinary/helpers";
+import { Image as AstroImage } from "astro:assets";
+import Navbar from "../components/Navbar.astro";
+import Layout from "../layouts/Layout.astro";
+
+const { searchParams } = Astro.url;
+const id = searchParams.get("id");
+
+if (id == null) return Astro.redirect("/");
+
+const url = getCldImageUrl({ src: id });
+console.log({ id, url });
+---
+
+<Layout title="Cloudinary Image">
+  <Navbar />
+  <main
+    data-id={id}
+    class="container mx-auto p-4 bg-halloween-black text-halloween-orange flex flex-col items-center"
+  >
+    <input
+      type="text"
+      id="background-input"
+      placeholder="Enter background type"
+    />
+    <button
+      id="transform-button"
+      class="bg-halloween-purple text-slate-100 px-4 py-2 rounded-md hover:bg-halloween-orange"
+      >Transform</button
+    >
+    <two-up class="my-two-up">
+      <AstroImage
+        id="original"
+        src={url}
+        alt="Cloudinary"
+        class="rounded-lg"
+        width="500"
+        height="500"
+        loading="eager"
+      />
+      <AstroImage
+        id="transformed"
+        src={url}
+        alt="Cloudinary"
+        class="rounded-lg"
+        width="500"
+        height="500"
+        loading="eager"
+      />
+    </two-up>
+    <small class="text-center text-slate-100 mt-10">{url}</small>
+
+    <div>
+      <button
+      class="bg-halloween-purple text-slate-100 px-4 py-2 rounded-md hover:bg-halloween-orange"
+      
+      >Download</button>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import { getCldImageUrl } from "astro-cloudinary/helpers";
+  import "two-up-element";
+
+  const id = document.querySelector("main")?.getAttribute("data-id") ?? "";
+  const transformedImage = document.getElementById(
+    "transformed"
+  ) as HTMLImageElement;
+  const backgroundInput = document.getElementById(
+    "background-input"
+  ) as HTMLInputElement;
+  const transformButton = document.getElementById(
+    "transform-button"
+  ) as HTMLButtonElement;
+
+  transformButton.addEventListener("click", () => {
+    const backgroundType = backgroundInput.value;
+    const newUrl = getCldImageUrl({
+      src: id,
+      replaceBackground: backgroundType,
+    });
+
+    transformedImage.style.opacity = ".5";
+    transformedImage.src = newUrl;
+    
+    transformedImage.onload = () => {
+      transformedImage.style.opacity = "1";
+    };
+  });
+</script>
+
+<style>
+  .my-two-up {
+    --track-color: rgb(193, 68, 22);
+    --thumb-color: #f00;
+    /* Background of the thumb */
+    --thumb-background: black;
+    /* Size of the thumb */
+    --thumb-size: 52px;
+    /* Thickness of the bar */
+    --bar-size: 8px;
+    /* Touch-thickness of the bar */
+    --bar-touch-size: 30px;
+  }
+</style>
